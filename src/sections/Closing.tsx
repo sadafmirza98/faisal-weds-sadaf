@@ -51,6 +51,7 @@ export function Closing() {
           </p>
           <p className="mt-6 font-cinzel text-base font-semibold tracking-[0.34em] text-parchment">{eventDateLong.toUpperCase()}</p>
           <p className="mt-1 font-calligraphy text-4xl leading-[1.3] text-gold-light">{wedding.occasion}</p>
+          <p className="mt-4 font-cinzel text-sm tracking-[0.3em] text-gold">{wedding.hashtag}</p>
         </Reveal>
 
         <Reveal delay={0.25} className="mt-12 flex flex-wrap items-center justify-center gap-3">
@@ -85,8 +86,8 @@ export function Closing() {
 
       <Castle className="mx-auto mt-16 h-[clamp(9rem,26vw,20rem)] w-full" />
       <footer className="relative bg-[#05070c] px-5 pb-10 pt-6 text-center">
-        <p className="font-sans text-[0.7rem] leading-relaxed text-parchment/40">
-          An unofficial, fan-inspired celebration with original artwork. Not affiliated with or endorsed by Warner Bros., Wizarding World or J.K. Rowling.
+        <p className="font-cinzel text-[0.68rem] tracking-[0.3em] text-parchment/55 uppercase">
+          Developed by <span className="text-gold-light">{closing.developedBy}</span>
         </p>
       </footer>
       <SecretMessage open={secret} onClose={() => setSecret(false)} />

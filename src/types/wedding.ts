@@ -18,6 +18,8 @@ export type WallTime = `${number}:${number}`;
 export interface Person {
   firstName: string;
   fullName: string;
+  /** Parents' line as on a wedding card, e.g. { relation: "Son of", parents: "Mrs. … & Mr. …" }. */
+  family?: { relation: string; parents: string };
 }
 
 export interface LatLng {
@@ -120,6 +122,10 @@ export interface WeddingConfig {
   locationLine: string;
   event: CelebrationEvent;
   venue: Venue;
+  /** Number for guests' questions — shown with Call and WhatsApp links. Also receives WhatsApp RSVPs. */
+  contact: { label: string; phone: string };
+  /** Wedding hashtag, e.g. "#SaFal". */
+  hashtag: string;
   /** Shown at the head of the invitation letter. */
   bismillah: ArabicLine;
   /** The Qur'anic verse shown after the Great Hall. */
@@ -160,7 +166,15 @@ export interface WeddingConfig {
     submitLabel: string;
     successMessage: string;
   };
-  closing: { message: string; duas: string; signOff: string };
+  closing: {
+    message: string;
+    duas: string;
+    signOff: string;
+    /** Footer credit: "Developed by …". */
+    developedBy: string;
+  };
+  /** Background music, played by a hidden YouTube player when sound is on. */
+  music: { youtubeId: string };
   secrets: { hiddenMessage: string; spellHint: string };
   nav: NavItem[];
   seo: {

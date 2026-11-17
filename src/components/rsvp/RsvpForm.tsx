@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "motion/react";
-import { AlertCircle, Feather, Loader2, Minus, Pencil, Plus, Send, ShieldAlert } from "lucide-react";
+import { AlertCircle, Feather, Loader2, MessageCircle, Minus, Pencil, Plus, Send, ShieldAlert } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { wedding } from "@/config/wedding";
@@ -12,6 +12,7 @@ import { WaxSeal } from "@/components/magical/WaxSeal";
 import { useSound } from "@/components/sound/SoundProvider";
 import { RsvpError, rsvpService, type RsvpReceipt } from "@/services/rsvp";
 import { firstNames } from "@/lib/wedding";
+import { rsvpWhatsappMessage, telHref, whatsappUrl } from "@/lib/contact";
 import { zonedTimeToUtc } from "@/lib/time";
 import { cn, safeStorage } from "@/lib/utils";
 
@@ -180,16 +181,25 @@ export function RsvpForm() {
                   : `${session.values.name} — sadly unable to attend. You will be missed.`}
               </p>
             )}
+            {session && (
+              <div className="mt-7 flex flex-col items-center gap-2">
+                <a href={whatsappUrl(rsvpWhatsappMessage(session.values))} target="_blank" rel="noopener noreferrer" className="btn-spell">
+                  <MessageCircle className="h-4 w-4" aria-hidden /> Send my reply on WhatsApp
+                  <span className="sr-only">(opens WhatsApp in a new tab)</span>
+                </a>
+                <p className="max-w-sm font-sans text-xs text-ink-soft">Opens WhatsApp with your reply already written to <span className="whitespace-nowrap">{wedding.contact.phone}</span> — just press send.</p>
+              </div>
+            )}
             {session?.receipt.mode === "local-demo" && (
               <div className="mx-auto mt-6 flex max-w-lg items-start gap-3 border border-dashed border-crimson/50 bg-[rgb(255_248_230/0.35)] p-4 text-left">
                 <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-crimson" aria-hidden />
                 <p className="font-sans text-[0.8rem] leading-relaxed text-ink">
-                  <strong>Demo mode:</strong> this reply was saved only in this browser’s local storage. It has <strong>not</strong> been sent to {firstNames}, is not
-                  stored securely, and will be lost if site data is cleared. Please also confirm with the couple directly.
+                  <strong>Please note:</strong> the owl only keeps a copy in this browser — it has <strong>not</strong> been sent to {firstNames}. Sending it on WhatsApp is
+                  what lets them know.
                 </p>
               </div>
             )}
-            <button type="button" onClick={editReply} className="btn-ink sketch mt-7" disabled={phase !== "done"}>
+            <button type="button" onClick={editReply} className="btn-ink sketch mt-6" disabled={phase !== "done"}>
               <Pencil className="h-4 w-4" aria-hidden /> Update my reply
             </button>
             </div>
@@ -344,9 +354,15 @@ export function RsvpForm() {
               </button>
               {rsvpService.mode === "local-demo" && (
                 <p className="max-w-md text-center font-sans text-xs text-ink-soft">
-                  Demo mode: replies are kept only in this browser (localStorage) and are not sent to the couple.
+                  Your owl keeps a copy in this browser; next you can send the reply to {firstNames} on WhatsApp.
                 </p>
               )}
+              <p className="text-center font-sans text-xs text-ink-soft">
+                Questions? Call or WhatsApp{" "}
+                <a href={telHref} className="whitespace-nowrap font-semibold text-ink underline decoration-ink/30 underline-offset-4">
+                  {wedding.contact.phone}
+                </a>
+              </p>
             </div>
             </div>
           </motion.form>

@@ -17,8 +17,16 @@ import type { WeddingConfig } from "@/types/wedding";
 
 export const wedding: WeddingConfig = {
   couple: {
-    groom: { firstName: "Faisal", fullName: "Faisal Khan" },
-    bride: { firstName: "Sadaf", fullName: "Sadaf Mirza" },
+    groom: {
+      firstName: "Faisal",
+      fullName: "Faisal Khan",
+      family: { relation: "Son of", parents: "Mrs. Fatima Khan & Mr. Mohd Afzal Khan" },
+    },
+    bride: {
+      firstName: "Sadaf",
+      fullName: "Sadaf Mirza",
+      family: { relation: "Daughter of", parents: "Mrs. Mehrunnisa Mirza & Mr. Zaheer Mirza" },
+    },
     monogram: ["F", "S"],
   },
 
@@ -67,6 +75,13 @@ export const wedding: WeddingConfig = {
       },
     },
   },
+
+  contact: {
+    label: "For any queries",
+    phone: "+91 84337 83337", // also receives the WhatsApp RSVPs
+  },
+
+  hashtag: "#SaFal",
 
   bismillah: {
     arabic: "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
@@ -184,7 +199,11 @@ export const wedding: WeddingConfig = {
     message: "Thank you for being part of our magical beginning.",
     duas: "Your presence and your duas are the greatest gifts we could ask for. Please keep us in your prayers as we begin this new chapter, Insha’Allah.",
     signOff: "With love and duas,",
+    developedBy: "Sadaf Mirza",
   },
+
+  // https://youtu.be/GSV7fHdwnoU — loops while sound is on.
+  music: { youtubeId: "GSV7fHdwnoU" },
 
   secrets: {
     hiddenMessage: "Of all the magic in this world, finding each other was our favourite.",

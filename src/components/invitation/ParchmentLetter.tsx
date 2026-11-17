@@ -154,15 +154,23 @@ export function ParchmentLetter({ unfolded, revealed, unfoldDelay = 0.85 }: Parc
       <div className="parchment deckle-x relative z-10 overflow-hidden" style={slot}>
         <Frame edge="middle" />
         <div className="relative flex h-full flex-col items-center justify-center px-[8cqw] text-center">
-          <Ink i={6} show={revealed} as="h2" className="font-calligraphy text-[11.5cqw] leading-[1.15] text-ink">
-            {wedding.couple.groom.fullName}
-          </Ink>
-          <Ink i={7} show={revealed} as="p" className="-my-[1cqw] font-script text-[9cqw] leading-none text-crimson">
-            &amp;
-          </Ink>
-          <Ink i={8} show={revealed} as="h2" className="font-calligraphy text-[11.5cqw] leading-[1.15] text-ink">
-            {wedding.couple.bride.fullName}
-          </Ink>
+          {[wedding.couple.groom, wedding.couple.bride].map((p, k) => (
+            <div key={p.fullName} className="contents">
+              {k === 1 && (
+                <Ink i={7} show={revealed} as="p" className="my-[0.5cqw] font-script text-[8cqw] leading-none text-crimson">
+                  &amp;
+                </Ink>
+              )}
+              <Ink i={k === 0 ? 6 : 8} show={revealed} as="h2" className="font-calligraphy text-[10.4cqw] leading-[1.12] text-ink">
+                {p.fullName}
+              </Ink>
+              {p.family && (
+                <Ink i={k === 0 ? 6 : 8} show={revealed} as="p" className="font-fell text-[max(9px,2.65cqw)] leading-[1.3] text-ink-soft italic">
+                  {p.family.relation} {p.family.parents}
+                </Ink>
+              )}
+            </div>
+          ))}
         </div>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-ink/15" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-ink/15" />

@@ -25,7 +25,7 @@ Built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Motion
 
 **Wand cursor:** on desktop the wand cursor and its golden sparkle trail are used across the whole site (text fields keep a text cursor).
 
-**Sound** is OFF by default. The speaker button enables a gentle ambience, chimes and paper sounds — all synthesised live with the Web Audio API (no audio files, no licences, no streaming service).
+**Sound** is OFF by default. The speaker button starts background music — a hidden, looping YouTube player (`music.youtubeId` in `src/config/wedding.ts`) — plus chime and paper effects synthesised live with the Web Audio API.
 
 ---
 
@@ -85,7 +85,10 @@ npm run check        # all three in sequence
 
 | Field | Notes |
 |-------|-------|
-| `couple.groom` / `couple.bride` | The groom (Faisal Khan) is always rendered first. |
+| `couple.groom` / `couple.bride` | Names and `family` (“Son of / Daughter of” + parents) — shown on the letter and the Walima card. The groom (Faisal Khan) is always rendered first. |
+| `contact` | “For any queries” number, shown with Call / WhatsApp links on the Walima card and RSVP. Guests’ WhatsApp RSVPs go to this number. |
+| `hashtag` | `#SaFal`, shown in the closing section. |
+| `closing.developedBy` | Footer credit: “2026 · Developed by …”. |
 | `event.date` | `"2026-12-20"` |
 | `event.time` | `"19:00"` (7:00 pm IST). Drives the countdown, the Walima card, the letter wording and calendar files. Set `null` to show “Time to be announced”. |
 | `event.endTime` | Optional, e.g. `"23:00"`. |
@@ -121,7 +124,8 @@ The story illustrations live in `public/images/story/`. They are original painti
 
 The RSVP UI talks to an `RsvpService` interface (`src/services/rsvp/`):
 
-- **Default: `localStorageRsvpService` (demo).** Replies are saved in the guest's own browser `localStorage` under `fs-walima-rsvps`. This storage is **browser-specific, unencrypted, and cleared with site data. It is never sent to the couple or to any server.** The site says this plainly after every demo submission and never claims the reply was delivered.
+- **WhatsApp (what actually reaches the couple):** after sending the owl, the guest gets a **Send my reply on WhatsApp** button that opens WhatsApp with their reply pre-written to `contact.phone` — they just press send.
+- **Default store: `localStorageRsvpService`.** Replies are saved in the guest's own browser `localStorage` under `fs-walima-rsvps`. This storage is **browser-specific, unencrypted, and cleared with site data. It is never sent to the couple or to any server.** The site says this plainly after every demo submission and never claims the reply was delivered.
 - **Duplicate protection:** a submission is ignored while another one is in flight. Once a reply is sent, the session shows the confirmation instead of a fresh form, and **Update my reply** edits that same record rather than creating a new one.
 - **Real backend:** set `NEXT_PUBLIC_RSVP_ENDPOINT`. `httpAdapter.ts` sends `POST <endpoint>` with JSON `{ name, phone, attending, attendees, dietary, message, id? }` and treats any 2xx response as success (optionally `{ id }`). Any backend works: your own API route, a serverless function, or a form service. Validate on the server as well, since client validation can be bypassed.
 

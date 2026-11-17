@@ -3,7 +3,9 @@
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CalendarDays, CalendarPlus, Clock, Compass, Download, MapPin, Shirt } from "lucide-react";
 import { wedding } from "@/config/wedding";
+import { ContactLinks } from "@/components/events/ContactLinks";
 import { DetailRow } from "@/components/events/DetailRow";
+import { Families } from "@/components/events/Families";
 import { Corner, Flourish } from "@/components/magical/Flourish";
 import { FloatingCandles } from "@/components/magical/FloatingCandles";
 import { WaxSeal } from "@/components/magical/WaxSeal";
@@ -58,6 +60,12 @@ export function Walima() {
                 {event.description && <p className="mx-auto mt-5 max-w-xl font-fell text-lg leading-relaxed text-ink-soft italic">{event.description}</p>}
               </header>
 
+              {/* The families */}
+              <div className="relative mx-auto mt-10 max-w-2xl">
+                <p className="text-center font-cinzel text-[0.7rem] font-bold tracking-[0.36em] text-ink-soft uppercase">With the blessings of our families</p>
+                <Families className="mt-5" />
+              </div>
+
               {/* Venue — the heart of the document */}
               <div className="relative mx-auto mt-10 max-w-xl border-y border-ink/25 py-8 text-center">
                 <p className="font-cinzel text-[0.7rem] font-bold tracking-[0.36em] text-ink-soft uppercase">The Venue</p>
@@ -86,7 +94,9 @@ export function Walima() {
                 )}
               </dl>
 
-              <div className="relative mt-12 flex flex-wrap items-center justify-center gap-3">
+              <ContactLinks className="relative mt-12 border-t border-ink/20 pt-8" />
+
+              <div className="relative mt-10 flex flex-wrap items-center justify-center gap-3">
                 <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer" className="btn-ink sketch">
                   <MapPin className="h-4 w-4" aria-hidden /> Open in Google Maps
                 </a>
