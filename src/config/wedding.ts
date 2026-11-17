@@ -78,7 +78,7 @@ export const wedding: WeddingConfig = {
 
   contact: {
     label: "For any queries",
-    phone: "+91 84337 83337", // also receives the WhatsApp RSVPs
+    phone: "+91 98674 74339", // also receives the WhatsApp RSVPs
   },
 
   hashtag: "#SaFal",

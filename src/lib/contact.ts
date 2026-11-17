@@ -4,7 +4,7 @@ import { eventDateLong, firstNames, eventTimeLabel } from "@/lib/wedding";
 
 const { contact } = wedding;
 
-/** "+91 84337 83337" → "918433783337" (the format wa.me expects). */
+/** "+91 98674 74339" → "919867474339" (the format wa.me expects). */
 export const phoneDigits = (phone: string) => phone.replace(/\D/g, "");
 
 export const telHref = `tel:+${phoneDigits(contact.phone)}`;
