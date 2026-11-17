@@ -1,0 +1,95 @@
+"use client";
+
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { motion } from "motion/react";
+import { ArrowUp, RotateCcw, Wand2 } from "lucide-react";
+import { useState } from "react";
+import { wedding } from "@/config/wedding";
+import { useExperience } from "@/components/layout/ExperienceProvider";
+import { Castle } from "@/components/magical/Castle";
+import { FloatingCandles } from "@/components/magical/FloatingCandles";
+import { Flourish } from "@/components/magical/Flourish";
+import { ParticleField } from "@/components/magical/ParticleField";
+import { Snitch } from "@/components/magical/Snitch";
+import { StarField } from "@/components/magical/StarField";
+import { SecretMessage } from "@/components/secrets/SecretMessage";
+import { castLumos } from "@/components/secrets/SpellListener";
+import { Reveal } from "@/components/ui/Reveal";
+import { eventDateLong } from "@/lib/wedding";
+
+export function Closing() {
+  const reduced = useReducedMotion();
+  const { replay } = useExperience();
+  const [secret, setSecret] = useState(false);
+  const { couple, closing, secrets } = wedding;
+
+  const toTop = () => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+
+  return (
+    <section id="closing" aria-labelledby="closing-title" className="relative isolate overflow-hidden bg-midnight pt-28 sm:pt-36">
+      <div className="pointer-events-none absolute inset-0 -z-20" aria-hidden>
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#090b12_0%,#0f1830_45%,#1a2744_70%,#0b1020_100%)]" />
+        <StarField count={200} seed={99} />
+        <ParticleField density={6} />
+      </div>
+      <FloatingCandles count={14} seed={202} className="-z-10 opacity-80" />
+
+      <div className="relative mx-auto max-w-3xl px-5 text-center">
+        <Reveal>
+          <p id="closing-title" className="font-fell text-[clamp(1.6rem,4.4vw,2.6rem)] leading-snug text-parchment italic text-glow">
+            “{closing.message}”
+          </p>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p className="mx-auto mt-6 max-w-xl font-fell text-lg leading-relaxed text-parchment/75 italic">{closing.duas}</p>
+          <Flourish className="mx-auto mt-10 w-64 max-w-full" />
+          <p className="mt-8 font-script text-3xl text-candle">{closing.signOff}</p>
+          <p className="mt-4 font-calligraphy text-[clamp(2.8rem,9vw,5.6rem)] leading-[1.15]">
+            <span className="text-foil mx-auto block w-fit px-[0.25em]">{couple.groom.fullName}</span>
+            <span className="block font-script text-[0.7em] leading-[1] text-candle">&amp;</span>
+            <span className="text-foil mx-auto block w-fit px-[0.25em]">{couple.bride.fullName}</span>
+          </p>
+          <p className="mt-6 font-cinzel text-base font-semibold tracking-[0.34em] text-parchment">{eventDateLong.toUpperCase()}</p>
+          <p className="mt-1 font-calligraphy text-4xl leading-[1.3] text-gold-light">{wedding.occasion}</p>
+        </Reveal>
+
+        <Reveal delay={0.25} className="mt-12 flex flex-wrap items-center justify-center gap-3">
+          <button type="button" onClick={toTop} className="btn-spell">
+            <ArrowUp className="h-4 w-4" aria-hidden /> Return to the Great Hall
+          </button>
+          <button type="button" onClick={replay} className="btn-ghost">
+            <RotateCcw className="h-4 w-4" aria-hidden /> Open the letter again
+          </button>
+        </Reveal>
+
+        {/* Secrets that don't depend on chance or motion */}
+        <Reveal delay={0.3} className="mt-14 flex flex-col items-center gap-3">
+          <div className="flex items-center gap-4">
+            <motion.button
+              type="button"
+              onClick={() => setSecret(true)}
+              aria-label="A golden snitch is resting here — catch it"
+              className="w-20 rounded-full p-1"
+              animate={reduced ? undefined : { y: [0, -8, 0], rotate: [0, 4, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <Snitch className="w-full drop-shadow-[0_0_10px_rgba(255,233,168,0.7)]" />
+            </motion.button>
+            <button type="button" onClick={castLumos} className="btn-ghost !min-h-10 !px-3 !text-[0.62rem]" aria-label="Cast Lumos">
+              <Wand2 className="h-4 w-4" aria-hidden /> Lumos
+            </button>
+          </div>
+          <p className="font-fell text-sm text-parchment/50 italic">{secrets.spellHint}</p>
+        </Reveal>
+      </div>
+
+      <Castle className="mx-auto mt-16 h-[clamp(9rem,26vw,20rem)] w-full" />
+      <footer className="relative bg-[#05070c] px-5 pb-10 pt-6 text-center">
+        <p className="font-sans text-[0.7rem] leading-relaxed text-parchment/40">
+          An unofficial, fan-inspired celebration with original artwork. Not affiliated with or endorsed by Warner Bros., Wizarding World or J.K. Rowling.
+        </p>
+      </footer>
+      <SecretMessage open={secret} onClose={() => setSecret(false)} />
+    </section>
+  );
+}

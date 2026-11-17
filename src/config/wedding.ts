@@ -1,0 +1,211 @@
+import type { WeddingConfig } from "@/types/wedding";
+
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ *  THE WIZARDING WALIMA — CENTRAL CONFIGURATION
+ *
+ *  This is the only file you need to edit to update wedding details.
+ *  Every section, the countdown, the map, calendar links and the social
+ *  preview read from here.
+ *
+ *  ✎ = placeholder / still to be confirmed. Leave a value as `null` rather than
+ *      guessing — the site shows "to be announced" wording instead.
+ *
+ *  Naming rule: the groom (Faisal Khan) is always named before the bride.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+export const wedding: WeddingConfig = {
+  couple: {
+    groom: { firstName: "Faisal", fullName: "Faisal Khan" },
+    bride: { firstName: "Sadaf", fullName: "Sadaf Mirza" },
+    monogram: ["F", "S"],
+  },
+
+  occasion: "Walima",
+  timeZone: "Asia/Kolkata",
+  timeZoneLabel: "IST",
+  locationLine: "Mumbai, India",
+
+  event: {
+    id: "walima",
+    name: "Walima",
+    date: "2026-12-20",
+    time: "19:00", // 7:00 pm IST — the countdown, Walima card and calendar files use this
+    endTime: null, // ✎ optional, e.g. "23:00"
+    description:
+      "Following the Sunnah, we host our Walima — a feast of gratitude for the blessing of marriage — and we would be honoured to share it with the people we love most.",
+    dressCode: null, // no dress code — the row is hidden. e.g. { label: "Festive", note: "…" } to show one
+  },
+
+  venue: {
+    name: "The Grand FM Mini Banquet",
+    area: "Jogeshwari West",
+    addressLines: [
+      "1st Floor, E.E Heights",
+      "Above Jaffer Bhai Delhi Darbar Restaurant",
+      "Jogeshwari West",
+      "Mumbai, Maharashtra 400102, India",
+    ],
+    fullAddress:
+      "1st Floor, E.E Heights, Above Jaffer Bhai Delhi Darbar Restaurant, Jogeshwari West, Mumbai, Maharashtra 400102, India",
+    coordinates: {
+      lat: 19.1374952,
+      lng: 72.8458317,
+      source:
+        "Google Maps place pin for the banquet (place 0x3be7b631b5978847:0x9570c62616af2660). Cross-checked: OpenStreetMap reverse geocode resolves to S.V. Road, Jogeshwari West, and directory listings place E.E Heights / Jaffer Bhai's Delhi Darbar on S.V. Road, Jogeshwari West 400102.",
+    },
+    googleMapsUrl:
+      "https://www.google.com/maps/place/The+Grand+FM+Banquet/@19.1374952,72.8458317,17z/data=!3m1!4b1!4m6!3m5!1s0x3be7b631b5978847:0x9570c62616af2660!8m2!3d19.1374952!4d72.8458317!16s%2Fg%2F11cp7fdv_p",
+    landmark: {
+      name: "Jogeshwari Railway Station (Western Line)",
+      shortName: "Jogeshwari Station",
+      coordinates: {
+        lat: 19.1361144,
+        lng: 72.848936,
+        source: "OpenStreetMap / Nominatim: “Jogeshwari (Western Line), Station Road”.",
+      },
+    },
+  },
+
+  bismillah: {
+    arabic: "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+    translation: "In the name of Allah, the Most Gracious, the Most Merciful",
+  },
+
+  verse: {
+    arabic: "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً",
+    translation:
+      "And of His signs is that He created for you from yourselves mates that you may find tranquillity in them; and He placed between you affection and mercy.",
+    cite: "Surah Ar-Rum · 30:21",
+  },
+
+  invitation: {
+    received: "You have received a special invitation.",
+    unsealLabel: "Unseal your invitation",
+    byInvitation: "By Special Invitation",
+    invitedTo: "request the pleasure of your company at the Walima of",
+    blessing: "Two souls, one magical story, and a lifetime of enchantment.",
+    enterLabel: "Enter the magical world",
+    envelopeAddressee: "To our dearest guest",
+  },
+
+  hero: {
+    eyebrow: "The Great Hall welcomes you",
+    tagline: "Two hearts. One magical destiny.",
+  },
+
+  story: {
+    eyebrow: "Our Magical Story",
+    title: "A tale written in starlight",
+    intro: "Turn the pages of our celebrations — from Qubool Hai to forever.",
+    chapters: [
+      {
+        id: "nikah",
+        numeral: "I",
+        title: "The Nikah",
+        period: "19 December 2026",
+        body: "Bismillah. In the presence of our families and the people we hold dearest, we will say “Qubool Hai” and begin our life together as husband and wife — a promise made before Allah, written in ink that will never fade.",
+        image: { src: "/images/story/lake.svg", alt: "A crescent moon over a still lake beneath a castle" },
+        link: { label: "View the Nikah invitation", href: "https://sadaf-weds-faisal.netlify.app/" },
+      },
+      {
+        id: "reception",
+        numeral: "II",
+        title: "The Reception",
+        period: "19 December 2026",
+        body: "As the night of our Nikah unfolds, the celebration continues — an evening of laughter, light and loved ones, ending with the bride’s tender farewell.",
+        image: { src: "/images/story/castle-night.svg", alt: "A castle with glowing windows reflected in a lake" },
+        link: { label: "View the Reception invitation", href: "https://sadaf-weds-faisal.netlify.app/" },
+      },
+      {
+        id: "walima",
+        numeral: "III",
+        title: "The Walima",
+        period: "20 December 2026 · 7:00 PM",
+        body: "The day after our Nikah, following the Sunnah, we gather for our Walima — a feast of gratitude, Alhamdulillah, for the blessing of marriage. We would be honoured to share it with you.",
+        image: { src: "/images/story/great-hall.svg", alt: "A great hall lit by floating candles" },
+        link: { label: "See the Walima details", href: "#walima" },
+      },
+      {
+        id: "forever",
+        numeral: "IV",
+        title: "Forever, Insha’Allah",
+        period: null,
+        body: "And here our story truly begins. With Allah’s blessings and your duas, two names written side by side become one tale — a lifetime of tranquillity, affection and mercy, Insha’Allah.",
+        image: { src: "/images/story/wands.svg", alt: "Two wands crossing beneath a burst of golden light" },
+      },
+    ],
+  },
+
+  celebration: {
+    eyebrow: "The Celebration",
+    title: "You are cordially invited",
+    timeToBeAnnounced: "Time to be announced",
+  },
+
+  express: {
+    eyebrow: "The Journey",
+    title: "Platform 9¾",
+    line: "All aboard for a celebration filled with magic.",
+    platform: "9¾",
+  },
+
+  countdown: {
+    eyebrow: "The Enchanted Clock",
+    title: "Until the magic begins",
+    complete: "The magic begins.",
+    completeMessage: "The day has arrived. Thank you for counting down with us.",
+  },
+
+  map: {
+    eyebrow: "The Way to the Walima",
+    title: "The Marauder’s Map",
+    intro: "An enchanted chart to guide you to the celebration. Speak the oath to reveal it.",
+    oath: "I solemnly swear that I am up to no good",
+    revealLabel: "Reveal the way",
+    closeLabel: "Mischief managed",
+    mapTitle: "A Chart of Jogeshwari West",
+  },
+
+  rsvp: {
+    eyebrow: "The Response Letter",
+    title: "Reply by owl",
+    intro: "Kindly let us know whether you will join us for the Walima.",
+    submitLabel: "Send my owl",
+    successMessage: "Your response has been received. Thank you for being part of our magical celebration.",
+    enabled: true,
+    deadline: null, // ✎ optional, e.g. "2026-12-10T23:59" — the form closes after this moment
+    maxAttendees: 6, // ✎ guests per reply, including the guest
+    dietaryOptions: ["No preference", "Vegetarian", "Vegan", "Jain", "Gluten-free", "Nut allergy", "Other (mention in your message)"],
+  },
+
+  closing: {
+    message: "Thank you for being part of our magical beginning.",
+    duas: "Your presence and your duas are the greatest gifts we could ask for. Please keep us in your prayers as we begin this new chapter, Insha’Allah.",
+    signOff: "With love and duas,",
+  },
+
+  secrets: {
+    hiddenMessage: "Of all the magic in this world, finding each other was our favourite.",
+    spellHint: "Psst — some say whispering “lumos” lights the way.",
+  },
+
+  nav: [
+    { id: "story", label: "Our Story" },
+    { id: "walima", label: "Walima" },
+    { id: "countdown", label: "Countdown" },
+    { id: "map", label: "The Map" },
+    { id: "rsvp", label: "RSVP" },
+  ],
+
+  seo: {
+    // Fallback only — Vercel/Netlify detect their own URL; NEXT_PUBLIC_SITE_URL wins for a custom domain.
+    siteUrl: "https://faisal-weds-sadaf.vercel.app",
+    title: "Faisal Khan & Sadaf Mirza — The Wizarding Walima",
+    description:
+      "You have received a special invitation: the Walima of Faisal Khan & Sadaf Mirza, 20 December 2026, Mumbai.",
+    ogImageAlt: "A parchment invitation sealed with an F & S wax seal — Faisal Khan & Sadaf Mirza, Walima, 20 December 2026",
+    allowIndexing: false, // private invitation by default
+  },
+};
