@@ -15,9 +15,9 @@ import { Story } from "@/sections/Story";
 import { Walima } from "@/sections/Walima";
 
 /**
- * The journey: the sealed letter → the Great Hall → a verse → our story →
+ * The journey: the sealed letter → the Great Hall → our story →
  * Platform 9¾ → the Walima → the enchanted clock → the Marauder’s Map →
- * the reply by owl → the closing night sky.
+ * the reply by owl → a verse → the closing night sky.
  */
 export default function Home() {
   return (
@@ -27,13 +27,13 @@ export default function Home() {
         <SiteNav />
         <main>
           <GreatHall />
-          <Blessing />
           <Story />
           <HogwartsExpress />
           <Walima />
           <Countdown />
           <MapSection />
           <Rsvp />
+          <Blessing />
           <Closing />
         </main>
         <GoldenSnitchHunt />

@@ -3,7 +3,7 @@ import { Flourish } from "@/components/magical/Flourish";
 import { StarField } from "@/components/magical/StarField";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** Surah Ar-Rum 30:21 — a quiet interlude between the Great Hall and our story. */
+/** Surah Ar-Rum 30:21 — a quiet interlude between the RSVP and the closing. */
 export function Blessing() {
   const { verse } = wedding;
   return (
