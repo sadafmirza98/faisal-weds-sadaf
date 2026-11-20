@@ -1,7 +1,7 @@
 "use client";
 
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { CalendarDays, CalendarPlus, Clock, Compass, Download, MapPin, Shirt } from "lucide-react";
+import { CalendarDays, CalendarPlus, Clock, Compass, MapPin, Shirt } from "lucide-react";
 import { wedding } from "@/config/wedding";
 import { ContactLinks } from "@/components/events/ContactLinks";
 import { DetailRow } from "@/components/events/DetailRow";
@@ -9,8 +9,9 @@ import { Families } from "@/components/events/Families";
 import { Corner, Flourish } from "@/components/magical/Flourish";
 import { FloatingCandles } from "@/components/magical/FloatingCandles";
 import { WaxSeal } from "@/components/magical/WaxSeal";
+import { LiningDigits } from "@/components/ui/LiningDigits";
 import { Reveal } from "@/components/ui/Reveal";
-import { downloadIcs, googleCalendarUrl } from "@/lib/calendar";
+import { googleCalendarUrl } from "@/lib/calendar";
 import { googleMapsUrl } from "@/lib/maps";
 import { eventDateFull, eventDateLong, eventTimeLabel } from "@/lib/wedding";
 import { cn, scrollToId } from "@/lib/utils";
@@ -52,11 +53,6 @@ export function Walima() {
                   <time dateTime={event.date}>{eventDateLong.toUpperCase()}</time>
                 </p>
                 <Flourish tone="ink" className="mx-auto mt-6 w-60 max-w-full" />
-                <p className="mt-5 font-calligraphy text-[clamp(2.2rem,6.5vw,3.4rem)] leading-[1.25] text-ink">
-                  <span className="block sm:inline">{couple.groom.fullName}</span>{" "}
-                  <span className="block font-script text-[0.8em] leading-[1] text-crimson sm:inline">&amp;</span>{" "}
-                  <span className="block sm:inline">{couple.bride.fullName}</span>
-                </p>
                 {event.description && <p className="mx-auto mt-5 max-w-xl font-fell text-lg leading-relaxed text-ink-soft italic">{event.description}</p>}
               </header>
 
@@ -73,7 +69,7 @@ export function Walima() {
                 <address className="mt-3 font-fell text-[1.15rem] leading-relaxed text-ink not-italic">
                   {venue.addressLines.map((l) => (
                     <span key={l} className="block">
-                      {l}
+                      <LiningDigits text={l} />
                     </span>
                   ))}
                 </address>
@@ -106,9 +102,6 @@ export function Walima() {
                 <a href={googleCalendarUrl()} target="_blank" rel="noopener noreferrer" className="btn-ink sketch">
                   <CalendarPlus className="h-4 w-4" aria-hidden /> Google Calendar
                 </a>
-                <button type="button" onClick={downloadIcs} className="btn-ink sketch">
-                  <Download className="h-4 w-4" aria-hidden /> Apple / Outlook (.ics)
-                </button>
               </div>
             </article>
           </div>

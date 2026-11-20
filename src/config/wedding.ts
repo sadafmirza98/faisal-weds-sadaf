@@ -33,7 +33,7 @@ export const wedding: WeddingConfig = {
   occasion: "Walima",
   timeZone: "Asia/Kolkata",
   timeZoneLabel: "IST",
-  locationLine: "Mumbai, India",
+  locationLine: "Mumbai",
 
   event: {
     id: "walima",
@@ -41,8 +41,7 @@ export const wedding: WeddingConfig = {
     date: "2026-12-20",
     time: "19:00", // 7:00 pm IST — the countdown, Walima card and calendar files use this
     endTime: null, // ✎ optional, e.g. "23:00"
-    description:
-      "Following the Sunnah, we host our Walima — a feast of gratitude for the blessing of marriage — and we would be honoured to share it with the people we love most.",
+    description: "Following the Sunnah, we invite you to our Walima — a feast of gratitude for our marriage.",
     dressCode: null, // no dress code — the row is hidden. e.g. { label: "Festive", note: "…" } to show one
   },
 
@@ -53,8 +52,9 @@ export const wedding: WeddingConfig = {
       "1st Floor, E.E Heights",
       "Above Jaffer Bhai Delhi Darbar Restaurant",
       "Jogeshwari West",
-      "Mumbai, Maharashtra 400102, India",
+      "Mumbai",
     ],
+    // Full postal address: used only for the Google Maps and calendar lookups, not shown.
     fullAddress:
       "1st Floor, E.E Heights, Above Jaffer Bhai Delhi Darbar Restaurant, Jogeshwari West, Mumbai, Maharashtra 400102, India",
     coordinates: {

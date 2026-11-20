@@ -127,33 +127,33 @@ export function HogwartsExpress() {
         </div>
 
         {/* The ticket */}
-        <Reveal delay={0.1} className="relative z-10 mx-auto -mt-6 w-full max-w-xl">
+        <Reveal delay={0.1} className="relative z-10 mx-auto -mt-6 w-full max-w-[21rem] sm:max-w-xl">
           <div className="parchment relative flex overflow-hidden rounded-[4px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)]">
-            <div className="flex-1 px-5 py-5 sm:px-7">
-              <p className="flex items-center gap-2 font-cinzel text-[0.66rem] font-bold tracking-[0.34em] text-crimson uppercase">
-                <Ticket className="h-4 w-4" aria-hidden /> Admit one · {wedding.occasion}
+            <div className="min-w-0 flex-1 px-4 py-3.5 sm:px-7 sm:py-5">
+              <p className="flex items-center gap-1.5 whitespace-nowrap font-cinzel text-[0.6rem] font-bold tracking-[0.26em] text-crimson uppercase sm:gap-2 sm:text-[0.66rem] sm:tracking-[0.34em]">
+                <Ticket className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden /> Admit · {wedding.occasion}
               </p>
-              <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 font-fell text-ink">
+              <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1.5 font-fell text-ink sm:mt-3 sm:gap-x-4 sm:gap-y-2">
                 <div>
-                  <dt className="font-cinzel text-[0.6rem] tracking-[0.25em] text-ink-soft uppercase">Departs</dt>
-                  <dd className="text-[1.05rem]">Platform {express.platform}</dd>
+                  <dt className="font-cinzel text-[0.52rem] tracking-[0.22em] text-ink-soft uppercase sm:text-[0.6rem] sm:tracking-[0.25em]">Departs</dt>
+                  <dd className="text-[0.92rem] leading-snug sm:text-[1.05rem]">Platform {express.platform}</dd>
                 </div>
                 <div>
-                  <dt className="font-cinzel text-[0.6rem] tracking-[0.25em] text-ink-soft uppercase">Date</dt>
-                  <dd className="text-[1.05rem]">{eventDateLong}</dd>
+                  <dt className="font-cinzel text-[0.52rem] tracking-[0.22em] text-ink-soft uppercase sm:text-[0.6rem] sm:tracking-[0.25em]">Date</dt>
+                  <dd className="text-[0.92rem] leading-snug sm:text-[1.05rem]">{eventDateLong}</dd>
                 </div>
                 <div className="col-span-2">
-                  <dt className="font-cinzel text-[0.6rem] tracking-[0.25em] text-ink-soft uppercase">Destination</dt>
-                  <dd className="text-[1.05rem]">{venue.name}, {venue.area}</dd>
+                  <dt className="font-cinzel text-[0.52rem] tracking-[0.22em] text-ink-soft uppercase sm:text-[0.6rem] sm:tracking-[0.25em]">Destination</dt>
+                  <dd className="text-[0.92rem] leading-snug sm:text-[1.05rem]">{venue.name}, {venue.area}</dd>
                 </div>
               </dl>
             </div>
-            <div className="relative flex w-28 flex-col items-center justify-center gap-3 border-l-2 border-dashed border-ink/35 px-2 sm:w-36">
-              <span className="absolute -left-3 -top-3 h-6 w-6 rounded-full bg-midnight" aria-hidden />
-              <span className="absolute -bottom-3 -left-3 h-6 w-6 rounded-full bg-midnight" aria-hidden />
-              <span className="font-script text-3xl text-crimson">F &amp; S</span>
-              <button type="button" onClick={() => scrollToId("map", reduced)} className="btn-ink !min-h-9 !px-2.5 !py-1.5 !text-[0.58rem]">
-                <Compass className="h-3.5 w-3.5" aria-hidden /> The way
+            <div className="relative flex w-[5.4rem] shrink-0 flex-col items-center justify-center gap-2 border-l-2 border-dashed border-ink/35 px-1.5 sm:w-36 sm:gap-3 sm:px-2">
+              <span className="absolute -left-2.5 -top-2.5 h-5 w-5 rounded-full bg-midnight sm:-left-3 sm:-top-3 sm:h-6 sm:w-6" aria-hidden />
+              <span className="absolute -bottom-2.5 -left-2.5 h-5 w-5 rounded-full bg-midnight sm:-bottom-3 sm:-left-3 sm:h-6 sm:w-6" aria-hidden />
+              <span className="whitespace-nowrap font-script text-xl text-crimson sm:text-3xl">F &amp; S</span>
+              <button type="button" onClick={() => scrollToId("map", reduced)} aria-label="The way to the venue" className="btn-ink !min-h-8 !px-2 !py-1 !text-[0.5rem] sm:!min-h-9 sm:!px-2.5 sm:!py-1.5 sm:!text-[0.58rem]">
+                <Compass className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden /> The way
               </button>
             </div>
           </div>

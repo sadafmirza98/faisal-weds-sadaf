@@ -1,5 +1,6 @@
 "use client";
 
+import { LiningDigits } from "@/components/ui/LiningDigits";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { AnimatePresence, motion } from "motion/react";
 import { Footprints, MapPin, Navigation, ScrollText, Sparkles, Undo2 } from "lucide-react";
@@ -39,7 +40,9 @@ function VenuePanel({ trail, onTrail, className }: { trail: boolean; onTrail: ()
         <MapPin className="h-4 w-4" aria-hidden /> Destination
       </p>
       <h3 className="mt-2 font-cinzel text-xl leading-tight font-bold text-ink">{venue.name}</h3>
-      <address className="mt-2 font-fell text-[1.05rem] leading-relaxed text-ink not-italic">{venue.fullAddress}</address>
+      <address className="mt-2 font-fell text-[1.05rem] leading-relaxed text-ink not-italic">
+        <LiningDigits text={venue.addressLines.join(", ")} />
+      </address>
       {line && <p className="mt-2 font-fell text-sm text-ink-soft italic">{line}</p>}
       <div className="mt-5 flex flex-col gap-2.5">
         {verified && venue.landmark && (
