@@ -75,7 +75,8 @@ export function Walima() {
                 </address>
               </div>
 
-              <dl className={cn("relative mx-auto mt-10 grid max-w-xl gap-8", event.dressCode ? "sm:max-w-none sm:grid-cols-3" : "sm:grid-cols-2")}>
+              {/* Date and time side by side, on phones too */}
+              <dl className={cn("relative mx-auto mt-10 grid max-w-xl grid-cols-2 gap-x-4 gap-y-8 sm:gap-8", event.dressCode && "sm:max-w-none sm:grid-cols-3")}>
                 <DetailRow icon={CalendarDays} label="Date">
                   <time dateTime={event.date}>{eventDateFull}</time>
                 </DetailRow>

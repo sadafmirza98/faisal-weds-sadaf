@@ -111,8 +111,8 @@ export const wedding: WeddingConfig = {
   },
 
   story: {
-    eyebrow: "Our Magical Story",
-    title: "A tale written in starlight",
+    eyebrow: "A tale written in starlight",
+    title: "Our Magical Story",
     intro: "Turn the pages of our celebrations — from Qubool Hai to forever.",
     chapters: [
       {
@@ -173,9 +173,19 @@ export const wedding: WeddingConfig = {
     completeMessage: "The day has arrived. Thank you for counting down with us.",
   },
 
+  calendar: {
+    eyebrow: "Save the Dates",
+    title: "Marked by magic",
+    intro: "Two enchanted evenings, written into the stars.",
+    marks: [
+      { date: "2026-12-19", label: "Nikah & Reception" },
+      { date: "2026-12-20", label: "Walima" },
+    ],
+  },
+
   map: {
-    eyebrow: "The Way to the Walima",
-    title: "The Marauder’s Map",
+    eyebrow: "The Marauder’s Map",
+    title: "Way to the Walima",
     intro: "An enchanted chart to guide you to the celebration. Speak the oath to reveal it.",
     oath: "I solemnly swear that I am up to no good",
     revealLabel: "Reveal the way",
@@ -192,7 +202,7 @@ export const wedding: WeddingConfig = {
     enabled: true,
     deadline: null, // ✎ optional, e.g. "2026-12-10T23:59" — the form closes after this moment
     maxAttendees: 6, // ✎ guests per reply, including the guest
-    dietaryOptions: ["No preference", "Vegetarian", "Vegan", "Jain", "Gluten-free", "Nut allergy", "Other (mention in your message)"],
+    dietaryOptions: ["Non-Vegetarian", "Vegetarian"], // the first is selected by default
   },
 
   closing: {
@@ -208,6 +218,13 @@ export const wedding: WeddingConfig = {
   secrets: {
     hiddenMessage: "Of all the magic in this world, finding each other was our favourite.",
     spellHint: "Psst — some say whispering “lumos” lights the way.",
+    lumos: {
+      eyebrow: "Lumos",
+      title: "You found the light",
+      message:
+        "May the light that brought our two hearts together always find its way to you — and may your home be filled with love, barakah and the brightest of days, Insha’Allah.",
+      signature: "— Faisal & Sadaf",
+    },
   },
 
   nav: [

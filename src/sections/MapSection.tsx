@@ -165,9 +165,6 @@ export function MapSection() {
                     <Undo2 className="h-4 w-4" aria-hidden /> {copy.closeLabel}
                   </button>
                 </div>
-                <p className="mt-4 text-center font-sans text-xs text-parchment/45">
-                  Map data © OpenStreetMap contributors. The dotted trail is a straight line for orientation — use Google Maps for walking or driving directions.
-                </p>
               </motion.div>
             )}
           </AnimatePresence>

@@ -4,9 +4,9 @@ import { SiteNav } from "@/components/layout/SiteNav";
 import { GoldenSnitchHunt } from "@/components/secrets/GoldenSnitchHunt";
 import { SpellListener } from "@/components/secrets/SpellListener";
 import { WandTrail } from "@/components/secrets/WandTrail";
-import { Blessing } from "@/sections/Blessing";
 import { Closing } from "@/sections/Closing";
 import { Countdown } from "@/sections/Countdown";
+import { EnchantedCalendar } from "@/sections/EnchantedCalendar";
 import { GreatHall } from "@/sections/GreatHall";
 import { HogwartsExpress } from "@/sections/HogwartsExpress";
 import { MapSection } from "@/sections/MapSection";
@@ -17,7 +17,7 @@ import { Walima } from "@/sections/Walima";
 /**
  * The journey: the sealed letter → the Great Hall → our story →
  * Platform 9¾ → the Walima → the enchanted clock → the Marauder’s Map →
- * the reply by owl → a verse → the closing night sky.
+ * the reply by owl → the closing night sky, ending with a verse.
  */
 export default function Home() {
   return (
@@ -31,9 +31,9 @@ export default function Home() {
           <HogwartsExpress />
           <Walima />
           <Countdown />
+          <EnchantedCalendar />
           <MapSection />
           <Rsvp />
-          <Blessing />
           <Closing />
         </main>
         <GoldenSnitchHunt />

@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "motion/react";
-import { AlertCircle, Feather, Loader2, MessageCircle, Minus, Pencil, Plus, Send, ShieldAlert } from "lucide-react";
+import { AlertCircle, Feather, Loader2, MessageCircle, Minus, Pencil, Plus, Send } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { wedding } from "@/config/wedding";
@@ -190,15 +190,6 @@ export function RsvpForm() {
                 <p className="max-w-sm font-sans text-xs text-ink-soft">Opens WhatsApp with your reply already written to <span className="whitespace-nowrap">{wedding.contact.phone}</span> — just press send.</p>
               </div>
             )}
-            {session?.receipt.mode === "local-demo" && (
-              <div className="mx-auto mt-6 flex max-w-lg items-start gap-3 border border-dashed border-crimson/50 bg-[rgb(255_248_230/0.35)] p-4 text-left">
-                <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-crimson" aria-hidden />
-                <p className="font-sans text-[0.8rem] leading-relaxed text-ink">
-                  <strong>Please note:</strong> the owl only keeps a copy in this browser — it has <strong>not</strong> been sent to {firstNames}. Sending it on WhatsApp is
-                  what lets them know.
-                </p>
-              </div>
-            )}
             <button type="button" onClick={editReply} className="btn-ink sketch mt-6" disabled={phase !== "done"}>
               <Pencil className="h-4 w-4" aria-hidden /> Update my reply
             </button>
@@ -285,7 +276,7 @@ export function RsvpForm() {
               <AnimatePresence initial={false}>
                 {attending === "yes" && (
                   <motion.div key="party" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="grid gap-7 overflow-hidden sm:grid-cols-2">
-                    <Field id={ids.attendees} label="Number attending" error={errors.attendees?.message} hint={`Including you · up to ${max}`}>
+                    <Field id={ids.attendees} label="Number attending" error={errors.attendees?.message}>
                       <Controller
                         control={control}
                         name="attendees"
@@ -352,11 +343,6 @@ export function RsvpForm() {
                 {sending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Send className="h-4 w-4" aria-hidden />}
                 {sending ? "Your owl is taking flight…" : rsvp.submitLabel}
               </button>
-              {rsvpService.mode === "local-demo" && (
-                <p className="max-w-md text-center font-sans text-xs text-ink-soft">
-                  Your owl keeps a copy in this browser; next you can send the reply to {firstNames} on WhatsApp.
-                </p>
-              )}
               <p className="text-center font-sans text-xs text-ink-soft">
                 Questions? Call or WhatsApp{" "}
                 <a href={telHref} className="whitespace-nowrap font-semibold text-ink underline decoration-ink/30 underline-offset-4">

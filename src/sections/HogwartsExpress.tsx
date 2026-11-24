@@ -157,7 +157,6 @@ export function HogwartsExpress() {
               </button>
             </div>
           </div>
-          <p className="mt-3 text-center font-sans text-[0.7rem] text-parchment/45">A keepsake for our guests — not a travel ticket.</p>
         </Reveal>
       </div>
     </section>

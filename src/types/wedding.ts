@@ -150,6 +150,14 @@ export interface WeddingConfig {
   };
   express: { eyebrow: string; title: string; line: string; platform: string };
   countdown: { eyebrow: string; title: string; complete: string; completeMessage: string };
+  /** The enchanted calendar: the wedding days marked on their month. */
+  calendar: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    /** Days to mark ("YYYY-MM-DD"), all in the same month. */
+    marks: { date: string; label: string }[];
+  };
   map: {
     eyebrow: string;
     title: string;
@@ -175,7 +183,12 @@ export interface WeddingConfig {
   };
   /** Background music, played by a hidden YouTube player when sound is on. */
   music: { youtubeId: string };
-  secrets: { hiddenMessage: string; spellHint: string };
+  secrets: {
+    hiddenMessage: string;
+    spellHint: string;
+    /** Shown when Lumos is cast, beneath the silver stag. */
+    lumos: { eyebrow: string; title: string; message: string; signature: string };
+  };
   nav: NavItem[];
   seo: {
     siteUrl: string;

@@ -3,11 +3,11 @@ import { Flourish } from "@/components/magical/Flourish";
 import { StarField } from "@/components/magical/StarField";
 import { Reveal } from "@/components/ui/Reveal";
 
-/** Surah Ar-Rum 30:21 — a quiet interlude between the RSVP and the closing. */
+/** Surah Ar-Rum 30:21 — the very end of the invitation, just above the footer credit. */
 export function Blessing() {
   const { verse } = wedding;
   return (
-    <section aria-label="A verse from the Qur’an" className="relative isolate overflow-hidden bg-midnight py-20 sm:py-28">
+    <section aria-label="A verse from the Qur’an" className="relative isolate overflow-hidden bg-[#05070c] pb-16 pt-14 sm:pb-20 sm:pt-20">
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgb(36_61_50/0.35),transparent_65%)]" />
         <StarField count={70} seed={301} className="opacity-50" />
