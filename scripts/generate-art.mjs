@@ -1,9 +1,14 @@
 #!/usr/bin/env node
 /**
- * Generates the original story illustrations in public/images/story.
- * Every scene is drawn procedurally (no stock, film stills or extracted assets).
- * Re-run with:  npm run art
- * Swap any of them for a real photograph whenever you like — see README.
+ * Generates the story-book plates in public/images/story: one gold-foil
+ * emblem per chapter, on deep navy and wine velvet inside an ornate gold
+ * frame, like the stamped plates of a wedding card. Every plate is drawn
+ * procedurally (original artwork; no stock, film stills or extracted assets).
+ *
+ * The emblem sits in the middle band (y 330–670 of 1000) so it survives the
+ * 2:1 crop used on phones.
+ *
+ *   npm run art
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -24,154 +29,184 @@ function rng(seed) {
 }
 const f = (n) => Math.round(n * 10) / 10;
 
+const W = 800;
+const H = 1000;
+const CX = 400;
+const CY = 500;
+
 const DEFS = `
-  <filter id="grain" x="0" y="0" width="100%" height="100%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
-    <feColorMatrix in="n" values="0 0 0 0 0.9  0 0 0 0 0.8  0 0 0 0 0.6  0 0 0 0.07 0"/>
-    <feComposite in2="SourceGraphic" operator="in"/>
-  </filter>
-  <filter id="soft"><feGaussianBlur stdDeviation="14"/></filter>
-  <filter id="glow"><feGaussianBlur stdDeviation="6"/></filter>
-  <radialGradient id="vignette" cx="50%" cy="50%" r="72%">
-    <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
-    <stop offset="1" stop-color="#000" stop-opacity="0.65"/>
+  <radialGradient id="velvet" cx="50%" cy="46%" r="70%">
+    <stop offset="0" stop-color="#1e2a4a"/><stop offset="0.6" stop-color="#111a30"/><stop offset="1" stop-color="#080b15"/>
   </radialGradient>
-  <radialGradient id="candleGlow"><stop offset="0" stop-color="#ffe4a0" stop-opacity="0.75"/><stop offset="1" stop-color="#ffe4a0" stop-opacity="0"/></radialGradient>
-  <linearGradient id="goldG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e3ae"/><stop offset="0.5" stop-color="#c5a46a"/><stop offset="1" stop-color="#7d5b2e"/></linearGradient>`;
+  <radialGradient id="wine" cx="50%" cy="100%" r="70%">
+    <stop offset="0" stop-color="#5a0b1e" stop-opacity="0.55"/><stop offset="1" stop-color="#5a0b1e" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="halo"><stop offset="0" stop-color="#ffe9b0" stop-opacity="0.42"/><stop offset="1" stop-color="#ffe9b0" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#fbeec4"/><stop offset="0.35" stop-color="#e2c27e"/><stop offset="0.65" stop-color="#b38a4a"/><stop offset="1" stop-color="#f3dea6"/>
+  </linearGradient>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22"/></filter>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n"/>
+    <feColorMatrix in="n" values="0 0 0 0 0.9  0 0 0 0 0.8  0 0 0 0 0.6  0 0 0 0.06 0"/>
+    <feComposite in2="SourceGraphic" operator="in"/>
+  </filter>`;
 
-function wrap(w, h, body, extraDefs = "") {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
-<defs>${DEFS}${extraDefs}</defs>
-${body}
-<rect width="${w}" height="${h}" fill="url(#vignette)"/>
-<rect width="${w}" height="${h}" fill="#fff" filter="url(#grain)" opacity="0.9"/>
-</svg>
-`;
-}
+const SPARK = "M0 -1C0.12 -0.3 0.3 -0.12 1 0C0.3 0.12 0.12 0.3 0 1C-0.12 0.3 -0.3 0.12 -1 0C-0.3 -0.12 -0.12 -0.3 0 -1Z";
+const spark = (x, y, s, o = 1) => `<path d="${SPARK}" transform="translate(${f(x)} ${f(y)}) scale(${f(s)})" fill="#fff3cf" opacity="${f(o)}"/>`;
 
-function stars(w, h, n, seed, maxY = 1) {
+function stars(n, seed) {
   const r = rng(seed);
   let s = "";
   for (let i = 0; i < n; i++) {
-    const big = r() < 0.07;
-    s += `<circle cx="${f(r() * w)}" cy="${f(r() * h * maxY)}" r="${f(big ? 1.6 + r() * 1.6 : 0.5 + r() * 1.1)}" fill="${big ? "#fff4d6" : "#dfe3ee"}" opacity="${f(0.35 + r() * 0.6)}"/>`;
+    const x = 70 + r() * (W - 140);
+    const y = 70 + r() * (H - 140);
+    s += r() < 0.12 ? spark(x, y, 4 + r() * 5, 0.5 + r() * 0.4) : `<circle cx="${f(x)}" cy="${f(y)}" r="${f(0.6 + r() * 1.2)}" fill="#efe3c4" opacity="${f(0.25 + r() * 0.5)}"/>`;
   }
   return s;
 }
 
-function candle(x, y, s = 1) {
-  return `<g transform="translate(${f(x)} ${f(y)}) scale(${f(s)})">
-    <circle cx="0" cy="-12" r="38" fill="url(#candleGlow)"/>
-    <path d="M0 -26 C5 -18 6 -12 0 -4 C-6 -12 -5 -18 0 -26Z" fill="#ffe7a3"/>
-    <path d="M0 -20 C2.5 -15 3 -11 0 -7 C-3 -11 -2.5 -15 0 -20Z" fill="#fffbe8"/>
-    <rect x="-7" y="-4" width="14" height="52" rx="3" fill="#efe2c4"/>
-    <rect x="-7" y="-4" width="4" height="52" fill="#c9b48c" opacity="0.6"/>
-  </g>`;
+/** An ornate gold double frame with flourished corners and a crest at top and bottom. */
+function frame() {
+  const corner = (x, y, sx, sy) =>
+    `<g transform="translate(${x} ${y}) scale(${sx} ${sy})" fill="none" stroke="url(#gold)" stroke-width="2.4" stroke-linecap="round">
+      <path d="M0 64 C0 26 26 0 64 0"/>
+      <path d="M18 92 C14 50 40 18 92 18" stroke-width="1.4"/>
+      <path d="M64 0 C80 0 92 10 92 24 C92 36 80 40 74 32 C70 26 76 18 84 22"/>
+      <path d="M0 64 C0 80 10 92 24 92 C36 92 40 80 32 74 C26 70 18 76 22 84"/>
+      <path d="M30 30 l8 -8 l8 8 l-8 8 z" fill="url(#gold)" stroke="none"/>
+    </g>`;
+  const crest = (y, flip) =>
+    `<g transform="translate(${CX} ${y}) scale(1 ${flip ? -1 : 1})" fill="none" stroke="url(#gold)" stroke-width="2" stroke-linecap="round">
+      <path d="M-90 0 C-60 0 -40 -16 -18 -16 C-8 -16 0 -8 0 0 C0 -8 8 -16 18 -16 C40 -16 60 0 90 0"/>
+      <path d="M0 -10 l7 7 l-7 7 l-7 -7 z" fill="url(#gold)" stroke="none"/>
+    </g>`;
+  return `
+    <rect x="30" y="30" width="${W - 60}" height="${H - 60}" fill="none" stroke="url(#gold)" stroke-width="3.2"/>
+    <rect x="44" y="44" width="${W - 88}" height="${H - 88}" fill="none" stroke="url(#gold)" stroke-width="1.2" opacity="0.8"/>
+    ${corner(44, 44, 1, 1)}${corner(W - 44, 44, -1, 1)}${corner(44, H - 44, 1, -1)}${corner(W - 44, H - 44, -1, -1)}
+    ${crest(66, false)}${crest(H - 66, true)}`;
 }
 
-function castle(w, baseY, scale = 1, color = "#0a0f1b", seed = 4) {
-  const r = rng(seed);
-  const towers = [
-    [0.08, 0.05, 0.3, 0.16], [0.16, 0.09, 0.22, 0], [0.27, 0.04, 0.42, 0.2], [0.33, 0.12, 0.3, 0],
-    [0.47, 0.05, 0.58, 0.26], [0.53, 0.14, 0.4, 0.12], [0.69, 0.04, 0.48, 0.22], [0.75, 0.1, 0.26, 0], [0.87, 0.04, 0.34, 0.17],
-  ];
-  let s = `<g fill="${color}">`;
-  let win = "";
-  for (const [x, tw, th, roof] of towers) {
-    const X = x * w, W = tw * w, H = th * w * 0.55 * scale;
-    s += `<rect x="${f(X)}" y="${f(baseY - H)}" width="${f(W)}" height="${f(H + 4)}"/>`;
-    if (roof) s += `<path d="M${f(X - 4)} ${f(baseY - H)} L${f(X + W / 2)} ${f(baseY - H - roof * w * 0.5 * scale)} L${f(X + W + 4)} ${f(baseY - H)}Z"/>`;
-    else for (let k = 0; k < Math.floor(W / 14); k++) s += `<rect x="${f(X + k * 14 + 2)}" y="${f(baseY - H - 8)}" width="8" height="9"/>`;
-    const cols = Math.max(1, Math.floor(W / 22));
-    const rows = Math.floor(H / 30);
-    for (let rr = 0; rr < rows; rr++) for (let c = 0; c < cols; c++) {
-      if (r() < 0.78) continue;
-      win += `<rect x="${f(X + ((c + 0.5) * W) / cols - 3)}" y="${f(baseY - H + 14 + rr * 30)}" width="6" height="10" rx="3" fill="#e8c98b" opacity="${f(0.55 + r() * 0.45)}"/>`;
-    }
-  }
-  return s + "</g>" + win;
+function plate(emblem, seed) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+<defs>${DEFS}</defs>
+<rect width="${W}" height="${H}" fill="url(#velvet)"/>
+<rect width="${W}" height="${H}" fill="url(#wine)"/>
+${stars(70, seed)}
+<circle cx="${CX}" cy="${CY}" r="230" fill="url(#halo)"/>
+${frame()}
+<g filter="url(#glow)" opacity="0.55">${emblem}</g>
+${emblem}
+<rect width="${W}" height="${H}" fill="#fff" filter="url(#grain)" opacity="0.8"/>
+</svg>
+`;
 }
+
+/** Points along a heart outline centred on cx, cy. */
+function heartPoints(cx, cy, scale, n) {
+  return Array.from({ length: n }, (_, i) => {
+    const t = (i / n) * Math.PI * 2;
+    const x = 16 * Math.sin(t) ** 3;
+    const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+    return [cx + x * scale, cy - y * scale];
+  });
+}
+
+// Solid gold for line work: a gradient stroke vanishes on a perfectly straight line (zero-width box).
+const GOLD_LINE = `fill="none" stroke="#e2c27e" stroke-linecap="round" stroke-linejoin="round"`;
 
 const art = {
-  "great-hall.svg": () => {
-    const W = 1200, H = 1500;
-    let candles = "";
-    const r = rng(12);
-    for (let i = 0; i < 26; i++) {
-      const d = r();
-      candles += candle(80 + r() * 1040, 150 + r() * 620, 0.45 + d * 0.9);
+  /** I · The Nikah: the Nikahnama — an unrolled marriage scroll with a quill and wax seal, beneath a crescent and star. */
+  "nikah.svg": () => {
+    const roll = (y) =>
+      `<rect x="292" y="${y - 13}" width="216" height="26" rx="13" fill="url(#gold)"/><ellipse cx="292" cy="${y}" rx="8" ry="13" fill="#b38a4a"/><ellipse cx="508" cy="${y}" rx="8" ry="13" fill="#e2c27e"/>`;
+    let writing = "";
+    const r = rng(7);
+    for (let k = 0; k < 6; k++) {
+      const y = 456 + k * 20;
+      const w = k === 5 ? 70 : 120 + r() * 40;
+      writing += `<path d="M322 ${y} h${f(w)}" fill="none" stroke="#8a6a32" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" opacity="0.75" stroke-dasharray="${f(10 + r() * 14)} 5 ${f(18 + r() * 10)} 4"/>`;
     }
-    return wrap(W, H, `
-      <rect width="${W}" height="${H}" fill="#0b1220"/>
-      <rect width="${W}" height="${H * 0.62}" fill="url(#sky)"/>
-      ${stars(W, H, 260, 5, 0.6)}
-      <path d="M0 260 L320 640 L320 1080 L0 1500Z" fill="#141c2e"/>
-      <path d="M1200 260 L880 640 L880 1080 L1200 1500Z" fill="#141c2e"/>
-      ${[[40, 150], [190, 255]].map(([a, b]) => `<path d="M${a} ${560 + a * 0.6} L${a} ${380 + a * 0.5} Q${(a + b) / 2} ${260 + a * 0.5} ${b} ${380 + b * 0.5} L${b} ${560 + b * 0.6}Z" fill="#c9a86a" opacity="0.55"/><path d="M${1200 - a} ${560 + a * 0.6} L${1200 - a} ${380 + a * 0.5} Q${1200 - (a + b) / 2} ${260 + a * 0.5} ${1200 - b} ${380 + b * 0.5} L${1200 - b} ${560 + b * 0.6}Z" fill="#c9a86a" opacity="0.55"/>`).join("")}
-      <rect x="320" y="640" width="560" height="440" fill="#18213a"/>
-      <circle cx="600" cy="780" r="90" fill="#e8c98b" opacity="0.35" filter="url(#soft)"/>
-      <circle cx="600" cy="780" r="70" fill="none" stroke="#0b1220" stroke-width="6"/>
-      <path d="M0 1500 L320 1080 L880 1080 L1200 1500Z" fill="#100d0c"/>
-      ${[200, 480, 720, 1000].map((x) => `<path d="M${x - 70} 1500 L${600 + (x - 600) * 0.12 - 4} 1090 L${600 + (x - 600) * 0.12 + 4} 1090 L${x + 70} 1500Z" fill="#1e1610"/>`).join("")}
-      ${candles}
-      <rect width="${W}" height="${H}" fill="url(#warm)"/>`,
-      `<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22355e"/><stop offset="1" stop-color="#0b1220"/></linearGradient>
-       <radialGradient id="warm" cx="50%" cy="70%" r="60%"><stop offset="0" stop-color="#e8c98b" stop-opacity="0.25"/><stop offset="1" stop-color="#e8c98b" stop-opacity="0"/></radialGradient>`);
+    const scroll = `
+      <path d="M304 420 H496 V600 H304 Z" fill="#f3e6c4" stroke="url(#gold)" stroke-width="3"/>
+      <path d="M316 432 H484 V588 H316 Z" fill="none" stroke="#b38a4a" stroke-width="1.2" opacity="0.7"/>
+      <path d="M352 442 C372 434 428 434 448 442" fill="none" stroke="#8e1430" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"/>
+      ${writing}
+      <path d="M326 574 c14 -14 24 4 36 -6 c10 -8 18 6 30 -2" fill="none" stroke="#3b2a14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"/>
+      ${roll(420)}${roll(600)}
+      <g transform="translate(466 566)"><circle r="17" fill="#8e1430"/><circle r="11" fill="none" stroke="#c2384f" stroke-width="2"/><path d="M-4 -5 l8 10 M4 -5 l-8 10" stroke="#e9b2bd" stroke-width="1.6" stroke-linecap="round"/></g>`;
+    const quill = `
+      <path d="M560 360 C520 384 482 452 452 556 C470 470 500 410 560 360 Z" fill="#f6ead0" stroke="url(#gold)" stroke-width="2.4"/>
+      <path d="M560 360 C512 420 478 488 452 556" ${GOLD_LINE} stroke-width="2"/>
+      <path d="M452 556 l-8 22 l14 -16 z" fill="url(#gold)"/>`;
+    const crescent = `<path d="M${CX - 6} 336 a34 34 0 1 0 36 40 a27 27 0 1 1 -36 -40 Z" fill="url(#gold)"/>`;
+    return plate(`${scroll}${quill}${crescent}${spark(CX + 42, 344, 11)}${spark(232, 460, 8, 0.85)}${spark(580, 620, 9, 0.85)}${spark(226, 640, 6, 0.7)}`, 11);
   },
 
-  "castle-night.svg": () => {
-    const W = 1200, H = 800;
-    return wrap(W, H, `
-      <rect width="${W}" height="${H}" fill="url(#bg)"/>
-      ${stars(W, H, 240, 31, 0.6)}
-      <path d="M180 120 C190 90 230 80 250 100 C240 96 220 100 214 118 C210 130 196 132 180 120Z" fill="#f1e6c8" opacity="0.9"/>
-      <ellipse cx="600" cy="520" rx="640" ry="200" fill="#e8c98b" opacity="0.08" filter="url(#soft)"/>
-      ${castle(W, 520, 1.15, "#070a12", 7)}
-      <path d="M0 520 C200 500 360 530 600 515 C820 500 1000 530 1200 520 L1200 560 L0 560Z" fill="#05070c"/>
-      <rect y="560" width="${W}" height="240" fill="url(#lake)"/>
-      <g opacity="0.35" transform="translate(0 1080) scale(1 -1)">${castle(W, 520, 1.15, "#0b1424", 7)}</g>
-      ${Array.from({ length: 30 }, (_, i) => `<rect x="${f(rng(i + 3)() * 1200)}" y="${f(580 + rng(i + 9)() * 200)}" width="${f(20 + rng(i)() * 90)}" height="1.2" fill="#e8c98b" opacity="0.25"/>`).join("")}`,
-      `<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070b16"/><stop offset="1" stop-color="#22324f"/></linearGradient>
-       <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14203a"/><stop offset="1" stop-color="#05070c"/></linearGradient>`);
-  },
-
-  "lake.svg": () => {
-    const W = 1200, H = 1600;
-    return wrap(W, H, `
-      <rect width="${W}" height="${H}" fill="url(#bg)"/>
-      ${stars(W, H, 300, 64, 0.5)}
-      <circle cx="840" cy="300" r="150" fill="#f1e6c8" opacity="0.15" filter="url(#soft)"/>
-      <path d="M800 210 C860 190 940 240 930 320 C920 390 850 420 800 400 C850 380 880 330 868 280 C858 240 830 220 800 210Z" fill="#f6ecd2"/>
-      ${castle(W, 840, 1.3, "#06080f", 13)}
-      <rect y="840" width="${W}" height="760" fill="url(#water)"/>
-      <rect x="805" y="860" width="90" height="640" fill="url(#beam)" filter="url(#glow)"/>
-      ${Array.from({ length: 40 }, (_, i) => { const q = rng(i + 800); return `<rect x="${f(700 + q() * 300)}" y="${f(880 + q() * 650)}" width="${f(20 + q() * 120)}" height="1.6" fill="#f6ecd2" opacity="${f(0.1 + q() * 0.35)}"/>`; }).join("")}
-      <path d="M0 1600 L0 1380 C140 1350 220 1420 300 1460 C380 1500 420 1560 460 1600Z" fill="#05070c"/>`,
-      `<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060a14"/><stop offset="0.52" stop-color="#1b2a48"/><stop offset="0.53" stop-color="#05070c"/></linearGradient>
-       <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16233f"/><stop offset="1" stop-color="#04060b"/></linearGradient>
-       <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6ecd2" stop-opacity="0.32"/><stop offset="1" stop-color="#f6ecd2" stop-opacity="0"/></linearGradient>`);
-  },
-
-  "wands.svg": () => {
-    const W = 1000, H = 1250;
-    const r = rng(303);
-    let sparks = "";
-    for (let i = 0; i < 120; i++) {
-      const a = r() * Math.PI * 2;
-      const d = 30 + r() * 360;
-      sparks += `<circle cx="${f(500 + Math.cos(a) * d)}" cy="${f(470 + Math.sin(a) * d * 0.9)}" r="${f(0.8 + r() * 2.8)}" fill="${r() < 0.3 ? "#fff6d8" : "#e8c98b"}" opacity="${f(0.25 + r() * 0.7)}"/>`;
+  /** II · The Reception: a castle with glowing windows and floating lanterns. */
+  "reception.svg": () => {
+    const towers = [
+      { x: 286, w: 36, top: 520 },
+      { x: 334, w: 44, top: 470 },
+      { x: 400, w: 56, top: 408 },
+      { x: 466, w: 44, top: 470 },
+      { x: 514, w: 36, top: 520 },
+    ];
+    let castle = `<path d="M250 640 H550" ${GOLD_LINE} stroke-width="4"/><path d="M262 640 V585 H538 V640" ${GOLD_LINE} stroke-width="3"/>`;
+    for (let i = 262; i < 538; i += 22) castle += `<path d="M${i} 585 v-10 h11 v10" ${GOLD_LINE} stroke-width="2.4"/>`;
+    for (const t of towers) {
+      const l = t.x - t.w / 2;
+      const r = t.x + t.w / 2;
+      castle += `<path d="M${l} 585 V${t.top} H${r} V585" fill="#111a30" stroke="url(#gold)" stroke-width="3" stroke-linejoin="round"/>`;
+      castle += `<path d="M${l - 6} ${t.top} L${t.x} ${t.top - t.w * 1.5} L${r + 6} ${t.top} Z" fill="url(#gold)"/>`;
+      castle += `<path d="M${t.x} ${t.top - t.w * 1.5} V${t.top - t.w * 1.5 - 18}" ${GOLD_LINE} stroke-width="2"/><path d="M${t.x} ${t.top - t.w * 1.5 - 18} l14 5 l-14 5" fill="url(#gold)"/>`;
+      for (let y = t.top + 18; y < 570; y += 30) castle += `<rect x="${t.x - 5}" y="${y}" width="10" height="15" rx="5" fill="#ffe7a6"/>`;
     }
-    const wand = `<path d="M-6 0 L6 0 L10 520 L-10 520Z" fill="url(#wood)"/><path d="M-11 520 h22 l3 14 l-3 14 l3 14 l-3 14 l-2 120 h-20 l-2 -120 l-3 -14 l3 -14 l-3 -14z" fill="url(#wood)"/><path d="M-11 534 h22 M-11 562 h22" stroke="#c5a46a" stroke-width="2" opacity="0.8"/>`;
-    return wrap(W, H, `
-      <rect width="${W}" height="${H}" fill="url(#bg)"/>
-      <circle cx="500" cy="470" r="300" fill="#ffe9a8" opacity="0.2" filter="url(#soft)"/>
-      <circle cx="500" cy="470" r="90" fill="#fff3cf" opacity="0.55" filter="url(#soft)"/>
-      ${sparks}
-      <g transform="translate(500 560) rotate(-32)"><g transform="translate(0 -330)">${wand}</g></g>
-      <g transform="translate(500 560) rotate(32)"><g transform="translate(0 -330)">${wand}</g></g>
-      <circle cx="${f(500 + Math.sin((32 * Math.PI) / 180) * 330)}" cy="${f(560 - Math.cos((32 * Math.PI) / 180) * 330)}" r="9" fill="#fffbe8"/><circle cx="${f(500 - Math.sin((32 * Math.PI) / 180) * 330)}" cy="${f(560 - Math.cos((32 * Math.PI) / 180) * 330)}" r="9" fill="#fffbe8"/>`,
-      `<radialGradient id="bg" cx="50%" cy="38%" r="75%"><stop offset="0" stop-color="#2a2a3a"/><stop offset="1" stop-color="#07080d"/></radialGradient>
-       <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a2414"/><stop offset="0.5" stop-color="#8a5f36"/><stop offset="1" stop-color="#2c1a0e"/></linearGradient>`);
+    castle += `<path d="M386 640 V612 a14 14 0 0 1 28 0 V640" fill="#ffe7a6"/>`;
+    const lantern = (x, y, s) =>
+      `<g transform="translate(${x} ${y}) scale(${s})"><circle r="26" fill="#ffe2a0" opacity="0.35" filter="url(#glow)"/><path d="M-10 -14 h20 l4 8 v16 l-4 8 h-20 l-4 -8 v-16 z" fill="#ffd98a" stroke="url(#gold)" stroke-width="2"/><path d="M-6 -14 v-5 h12 v5" ${GOLD_LINE} stroke-width="2"/></g>`;
+    return plate(`${castle}${lantern(300, 380, 1)}${lantern(512, 360, 1.15)}${lantern(232, 470, 0.8)}${lantern(580, 452, 0.85)}${spark(400, 350, 10)}${spark(600, 600, 7, 0.8)}${spark(200, 590, 7, 0.8)}`, 22);
+  },
+
+  /** III · The Walima: a gold domed feast platter, steaming, beneath floating candles. */
+  "walima.svg": () => {
+    const candle = (x, y) =>
+      `<g transform="translate(${x} ${y})"><circle cy="-30" r="18" fill="#ffe2a0" opacity="0.45" filter="url(#glow)"/><rect x="-6" y="-14" width="12" height="44" rx="2" fill="#f3e6c4"/><path d="M0 -34 C6 -26 5 -18 0 -16 C-5 -18 -6 -26 0 -34 Z" fill="#ffd27a"/></g>`;
+    const dish = `
+      <path d="M262 600 C262 520 324 470 400 470 C476 470 538 520 538 600 Z" fill="#111a30" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M292 590 C296 536 342 500 400 498" ${GOLD_LINE} stroke-width="2.6" opacity="0.7"/>
+      <path d="M300 560 H500" ${GOLD_LINE} stroke-width="1.6" opacity="0.6" stroke-dasharray="3 7"/>
+      <circle cx="400" cy="460" r="13" fill="url(#gold)"/><circle cx="400" cy="460" r="5" fill="#8e1430"/>
+      <path d="M236 604 H564" ${GOLD_LINE} stroke-width="7"/>
+      <path d="M270 612 C300 630 500 630 530 612" ${GOLD_LINE} stroke-width="4"/>
+      <path d="M380 630 H420 L430 646 H370 Z" fill="url(#gold)"/>`;
+    const steam = [-34, 0, 34]
+      .map((dx, k) => `<path d="M${400 + dx} 440 c-14 -16 14 -26 0 -44 c-12 -16 10 -24 4 -38" ${GOLD_LINE} stroke-width="3" opacity="${0.75 - k * 0.1}"/>`)
+      .join("");
+    return plate(`${steam}${dish}${candle(270, 372)}${candle(400, 336)}${candle(530, 372)}${spark(214, 560, 8, 0.8)}${spark(588, 548, 9, 0.85)}${spark(470, 430, 7, 0.8)}`, 33);
+  },
+
+  /** IV · Forever: two crossed wands whose sparks meet in a heart. */
+  "forever.svg": () => {
+    const wand = (rot) =>
+      `<g transform="translate(${CX} 650) rotate(${rot})"><path d="M-4 -230 L4 -230 L8 -40 L-8 -40 Z" fill="#6b4424" stroke="url(#gold)" stroke-width="2"/><path d="M-9 -40 h18 l3 12 l-3 12 l3 12 l-3 12 l-2 50 h-16 l-2 -50 l-3 -12 l3 -12 l-3 -12 z" fill="#4a2c16" stroke="url(#gold)" stroke-width="2"/><path d="M-10 -28 h20 M-10 -4 h20" ${GOLD_LINE} stroke-width="2"/><circle cy="-232" r="5" fill="#fff6dc"/></g>`;
+    const r = rng(44);
+    const heart = heartPoints(CX, 430, 6.2, 34)
+      .map(([x, y], i) => (i % 4 === 0 ? spark(x, y, 7 + r() * 3) : `<circle cx="${f(x)}" cy="${f(y)}" r="${f(2.2 + r() * 2)}" fill="#ffe7a6"/>`))
+      .join("");
+    // trails of sparks from each wand tip up into the heart
+    const tip = (rot) => [CX + Math.sin((rot * Math.PI) / 180) * 232, 650 - Math.cos((rot * Math.PI) / 180) * 232];
+    let trails = "";
+    for (const rot of [-26, 26]) {
+      const [tx, ty] = tip(rot);
+      for (let k = 1; k <= 6; k++) {
+        const t = k / 7;
+        trails += `<circle cx="${f(tx + (CX + (rot < 0 ? -50 : 50) - tx) * t)}" cy="${f(ty + (470 - ty) * t)}" r="${f(1.6 + t * 2)}" fill="#ffe7a6" opacity="${f(0.4 + t * 0.5)}"/>`;
+      }
+    }
+    return plate(`${wand(-26)}${wand(26)}${trails}${heart}${spark(CX, 430, 14)}`, 55);
   },
 };
 

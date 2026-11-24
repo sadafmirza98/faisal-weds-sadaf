@@ -348,10 +348,11 @@ export function EnchantedCalendar() {
               </div>
 
               {/* what each mark means */}
+              {/* columns line up: day, rule, event */}
               <ul className="relative mt-6 space-y-2 border-t border-ink/20 pt-5">
                 {calendar.marks.map((mk) => (
-                  <li key={mk.date} className="flex items-center justify-center gap-3">
-                    <span className="font-cinzel text-[0.7rem] font-bold tracking-[0.2em] text-crimson uppercase">
+                  <li key={mk.date} className="mx-auto grid w-fit grid-cols-[4.6rem_1.25rem_10.5rem] items-center gap-3">
+                    <span className="text-right font-cinzel text-[0.7rem] font-bold tracking-[0.2em] text-crimson uppercase">
                       {weekday(mk.date)} {Number(mk.date.slice(8, 10))}
                     </span>
                     <span className="h-px w-5 bg-ink/30" aria-hidden />

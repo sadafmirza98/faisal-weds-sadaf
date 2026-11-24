@@ -22,7 +22,8 @@ export function GreatHall() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const contentY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, 160]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  // Fully visible at the top; fades only once the guest has scrolled well into the page.
+  const contentOpacity = useTransform(scrollYProgress, [0.15, 0.8], [1, 0]);
   const sceneScale = useTransform(scrollYProgress, [0, 1], reduced ? [1, 1] : [1, 1.12]);
   const skyY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, -80]);
 

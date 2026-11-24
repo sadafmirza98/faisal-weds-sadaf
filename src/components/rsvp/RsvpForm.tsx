@@ -12,7 +12,7 @@ import { WaxSeal } from "@/components/magical/WaxSeal";
 import { useSound } from "@/components/sound/SoundProvider";
 import { RsvpError, rsvpService, type RsvpReceipt } from "@/services/rsvp";
 import { firstNames } from "@/lib/wedding";
-import { rsvpWhatsappMessage, telHref, whatsappUrl } from "@/lib/contact";
+import { rsvpWhatsappMessage, whatsappUrl } from "@/lib/contact";
 import { zonedTimeToUtc } from "@/lib/time";
 import { cn, safeStorage } from "@/lib/utils";
 
@@ -23,7 +23,6 @@ const deadlineMs = rsvp.deadline ? zonedTimeToUtc(rsvp.deadline, wedding.timeZon
 
 const defaults: RsvpFormInput = {
   name: "",
-  phone: "",
   attending: undefined as unknown as "yes",
   attendees: 1,
   dietary: rsvp.dietaryOptions[0] ?? "",
@@ -74,7 +73,7 @@ const inkInput =
 
 export function RsvpForm() {
   const uid = useId();
-  const ids = { name: `${uid}-name`, phone: `${uid}-phone`, attendees: `${uid}-att`, dietary: `${uid}-diet`, message: `${uid}-msg` };
+  const ids = { name: `${uid}-name`, attendees: `${uid}-att`, dietary: `${uid}-diet`, message: `${uid}-msg` };
   const { play } = useSound();
   const [phase, setPhase] = useState<Phase>("form");
   const [error, setError] = useState<string | null>(null);
@@ -229,20 +228,6 @@ export function RsvpForm() {
                 />
               </Field>
 
-              <Field id={ids.phone} label="Phone number" error={errors.phone?.message} hint="So the couple can reach you about the celebration.">
-                <input
-                  id={ids.phone}
-                  type="tel"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  placeholder="+91 98765 43210"
-                  aria-invalid={!!errors.phone}
-                  aria-describedby={errors.phone ? `${ids.phone}-error` : `${ids.phone}-hint`}
-                  className={inkInput}
-                  {...register("phone")}
-                />
-              </Field>
-
               <fieldset aria-describedby={errors.attending ? `${uid}-attending-error` : undefined}>
                 <legend className="font-cinzel text-[0.7rem] font-bold tracking-[0.26em] text-ink-soft uppercase">Will you attend?</legend>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -343,12 +328,6 @@ export function RsvpForm() {
                 {sending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Send className="h-4 w-4" aria-hidden />}
                 {sending ? "Your owl is taking flight…" : rsvp.submitLabel}
               </button>
-              <p className="text-center font-sans text-xs text-ink-soft">
-                Questions? Call or WhatsApp{" "}
-                <a href={telHref} className="whitespace-nowrap font-semibold text-ink underline decoration-ink/30 underline-offset-4">
-                  {wedding.contact.phone}
-                </a>
-              </p>
             </div>
             </div>
           </motion.form>

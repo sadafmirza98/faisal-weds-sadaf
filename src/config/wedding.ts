@@ -51,8 +51,7 @@ export const wedding: WeddingConfig = {
     addressLines: [
       "1st Floor, E.E Heights",
       "Above Jaffer Bhai Delhi Darbar Restaurant",
-      "Jogeshwari West",
-      "Mumbai",
+      "Jogeshwari West, Mumbai",
     ],
     // Full postal address: used only for the Google Maps and calendar lookups, not shown.
     fullAddress:
@@ -121,7 +120,7 @@ export const wedding: WeddingConfig = {
         title: "The Nikah",
         period: "19 December 2026",
         body: "Bismillah. In the presence of our families and the people we hold dearest, we will say “Qubool Hai” and begin our life together as husband and wife — a promise made before Allah, written in ink that will never fade.",
-        image: { src: "/images/story/lake.svg", alt: "A crescent moon over a still lake beneath a castle" },
+        image: { src: "/images/story/nikah.svg", alt: "The Nikahnama — a marriage scroll with a gold quill and wax seal, beneath a crescent moon and star" },
         link: { label: "View the Nikah invitation", href: "https://sadaf-weds-faisal.netlify.app/" },
       },
       {
@@ -130,7 +129,7 @@ export const wedding: WeddingConfig = {
         title: "The Reception",
         period: "19 December 2026",
         body: "As the night of our Nikah unfolds, the celebration continues — an evening of laughter, light and loved ones, ending with the bride’s tender farewell.",
-        image: { src: "/images/story/castle-night.svg", alt: "A castle with glowing windows reflected in a lake" },
+        image: { src: "/images/story/reception.svg", alt: "A gold castle with glowing windows and floating lanterns" },
         link: { label: "View the Reception invitation", href: "https://sadaf-weds-faisal.netlify.app/" },
       },
       {
@@ -139,7 +138,7 @@ export const wedding: WeddingConfig = {
         title: "The Walima",
         period: "20 December 2026 · 7:00 PM",
         body: "The day after our Nikah, following the Sunnah, we gather for our Walima — a feast of gratitude, Alhamdulillah, for the blessing of marriage. We would be honoured to share it with you.",
-        image: { src: "/images/story/great-hall.svg", alt: "A great hall lit by floating candles" },
+        image: { src: "/images/story/walima.svg", alt: "A gold domed feast platter, steaming, beneath floating candles" },
         link: { label: "See the Walima details", href: "#walima" },
       },
       {
@@ -148,7 +147,7 @@ export const wedding: WeddingConfig = {
         title: "Forever, Insha’Allah",
         period: null,
         body: "And here our story truly begins. With Allah’s blessings and your duas, two names written side by side become one tale — a lifetime of tranquillity, affection and mercy, Insha’Allah.",
-        image: { src: "/images/story/wands.svg", alt: "Two wands crossing beneath a burst of golden light" },
+        image: { src: "/images/story/forever.svg", alt: "Two crossed wands whose sparks meet in a golden heart" },
       },
     ],
   },
@@ -222,7 +221,7 @@ export const wedding: WeddingConfig = {
       eyebrow: "Lumos",
       title: "You found the light",
       message:
-        "May the light that brought our two hearts together always find its way to you — and may your home be filled with love, barakah and the brightest of days, Insha’Allah.",
+        "May the light that brought our two hearts together always find its way to you — and may your home be filled with love, joy and the brightest of days.",
       signature: "— Faisal & Sadaf",
     },
   },

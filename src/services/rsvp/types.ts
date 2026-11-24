@@ -1,7 +1,6 @@
 /** An RSVP as submitted by a guest (validated by the form schema). */
 export interface RsvpSubmission {
   name: string;
-  phone: string;
   attending: "yes" | "no";
   attendees: number;
   dietary: string;

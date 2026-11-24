@@ -14,7 +14,7 @@ import { cn, scrollToId } from "@/lib/utils";
 const ids = wedding.nav.map((n) => n.id);
 
 export function SiteNav() {
-  const { opened, replay } = useExperience();
+  const { opened } = useExperience();
   const reduced = useReducedMotion();
   const active = useActiveSection(ids);
   const [scrolled, setScrolled] = useState(false);
@@ -64,7 +64,13 @@ export function SiteNav() {
       transition={{ duration: 0.9, delay: opened ? 0.6 : 0, ease: [0.22, 1, 0.36, 1] }}
     >
       <nav aria-label="Main" className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-        <button type="button" onClick={replay} className="flex items-center gap-2.5" aria-label="Open the invitation letter again">
+        {/* The seal takes you back to the top (it used to reopen the letter, which hid the whole site). */}
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" })}
+          className="flex items-center gap-2.5"
+          aria-label="Back to the top"
+        >
           <WaxSeal size={34} />
           <span className="hidden font-cinzel text-sm tracking-[0.25em] text-gold-light sm:inline">
             {wedding.couple.monogram[0]} <span className="font-script text-lg tracking-normal text-candle">&amp;</span> {wedding.couple.monogram[1]}

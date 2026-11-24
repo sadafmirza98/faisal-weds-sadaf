@@ -3,17 +3,9 @@ import { wedding } from "@/config/wedding";
 
 const max = wedding.rsvp.maxAttendees;
 
-/** Accepts Indian and international numbers: digits, spaces, dashes, brackets, optional leading +. */
-const PHONE = /^\+?[0-9\s\-()]{7,20}$/;
-
 export const rsvpSchema = z
   .object({
     name: z.string().trim().min(2, "Please write your full name.").max(80, "Please keep your name under 80 characters."),
-    phone: z
-      .string()
-      .trim()
-      .regex(PHONE, "Please enter a valid phone number, e.g. +91 98765 43210.")
-      .refine((v) => v.replace(/\D/g, "").length >= 7 && v.replace(/\D/g, "").length <= 15, "Please enter a valid phone number, e.g. +91 98765 43210."),
     attending: z.enum(["yes", "no"], { error: "Please tell us whether you can join us." }),
     attendees: z.number({ error: "Please choose how many will attend." }).int().min(0).max(max, `Each reply can include up to ${max} guests.`),
     dietary: z.string(),

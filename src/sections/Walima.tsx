@@ -66,9 +66,9 @@ export function Walima() {
               <div className="relative mx-auto mt-10 max-w-xl border-y border-ink/25 py-8 text-center">
                 <p className="font-cinzel text-[0.7rem] font-bold tracking-[0.36em] text-ink-soft uppercase">The Venue</p>
                 <p className="mt-3 font-cinzel text-[clamp(1.35rem,4vw,2rem)] font-bold tracking-[0.06em] text-ink">{venue.name.toUpperCase()}</p>
-                <address className="mt-3 font-fell text-[1.15rem] leading-relaxed text-ink not-italic">
+                <address className="mt-3 font-fell text-[clamp(0.92rem,4.1vw,1.15rem)] leading-relaxed text-ink not-italic">
                   {venue.addressLines.map((l) => (
-                    <span key={l} className="block">
+                    <span key={l} className="block whitespace-nowrap">
                       <LiningDigits text={l} />
                     </span>
                   ))}

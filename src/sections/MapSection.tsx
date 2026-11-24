@@ -112,9 +112,6 @@ export function MapSection() {
                 <button type="button" onClick={reveal} className="btn-spell mt-8 max-w-full !whitespace-normal !text-[0.72rem] sm:!text-[0.8rem]">
                   <Sparkles className="h-4 w-4 shrink-0" aria-hidden /> {copy.oath}
                 </button>
-                <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer" className="mt-5 font-sans text-xs text-ink-soft underline decoration-ink/30 underline-offset-4 hover:text-ink">
-                  Prefer plain directions? Open {venue.name} in Google Maps
-                </a>
               </div>
               </motion.div>
             ) : (

@@ -9,13 +9,19 @@ import { cn } from "@/lib/utils";
 export function Snitch({ className }: { className?: string }) {
   const reduced = useReducedMotion();
   const id = useId().replace(/:/g, "");
-  const flutter = (dir: 1 | -1) =>
-    reduced
+  // Each wing beats from its shoulder (pinned to the orb): up, then a firmer
+  // down-stroke with the feathers foreshortening, mirrored left and right.
+  // The pivot is in the SVG's own coordinates (view-box), so the wings stay
+  // attached instead of swinging about their own bounding boxes.
+  const flutter = (dir: 1 | -1, x: number) => ({
+    style: { transformOrigin: `${x}px 38px`, transformBox: "view-box" as const },
+    ...(reduced
       ? {}
       : {
-          animate: { rotate: [dir * 6, dir * -22, dir * 6], scaleY: [1, 0.55, 1] },
-          transition: { duration: 0.18, repeat: Infinity, ease: "easeInOut" as const },
-        };
+          animate: { rotate: [dir * 16, dir * -14, dir * 16], scaleX: [1, 0.86, 1] },
+          transition: { duration: 0.26, times: [0, 0.45, 1], repeat: Infinity, ease: "easeInOut" as const },
+        }),
+  });
   const feather = "M0 0 C-14 -16 -40 -26 -70 -24 C-58 -18 -52 -14 -48 -10 C-58 -9 -64 -6 -68 -2 C-50 0 -38 2 -30 4 C-36 8 -40 10 -42 14 C-24 12 -10 8 0 4Z";
   return (
     <svg viewBox="0 0 160 80" className={cn("overflow-visible", className)} aria-hidden>
@@ -36,11 +42,11 @@ export function Snitch({ className }: { className?: string }) {
         </radialGradient>
       </defs>
       <circle cx="80" cy="40" r="34" fill={`url(#${id}-halo)`} />
-      <motion.g style={{ originX: "70px", originY: "38px" }} {...flutter(1)}>
+      <motion.g {...flutter(1, 70)}>
         <path d={feather} transform="translate(70 38)" fill={`url(#${id}-wing)`} stroke="#d9c38c" strokeWidth="0.6" />
-        <path d="M70 38 C58 30 40 24 14 22 M70 38 C56 34 42 34 22 36" transform="" stroke="#c7a45e" strokeWidth="0.5" fill="none" opacity="0.7" />
+        <path d="M70 38 C58 30 40 24 14 22 M70 38 C56 34 42 34 22 36" stroke="#c7a45e" strokeWidth="0.5" fill="none" opacity="0.7" />
       </motion.g>
-      <motion.g style={{ originX: "90px", originY: "38px" }} {...flutter(-1)}>
+      <motion.g {...flutter(-1, 90)}>
         <path d={feather} transform="translate(90 38) scale(-1 1)" fill={`url(#${id}-wing)`} stroke="#d9c38c" strokeWidth="0.6" />
         <path d="M90 38 C102 30 120 24 146 22 M90 38 C104 34 118 34 138 36" stroke="#c7a45e" strokeWidth="0.5" fill="none" opacity="0.7" />
       </motion.g>

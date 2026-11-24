@@ -21,7 +21,6 @@ export function rsvpWhatsappMessage(v: RsvpSubmission) {
     `Assalamu Alaikum! RSVP for ${firstNames}'s ${wedding.occasion} (${eventDateLong}, ${eventTimeLabel})`,
     "",
     `Name: ${v.name}`,
-    `Phone: ${v.phone}`,
     v.attending === "yes" ? "Reply: Joyfully accepts" : "Reply: Regretfully declines",
   ];
   if (v.attending === "yes") {
