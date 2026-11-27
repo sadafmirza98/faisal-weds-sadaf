@@ -50,7 +50,6 @@ export function Closing() {
             <span className="block font-script text-[0.7em] leading-[1] text-candle">&amp;</span>
             <span className="text-foil mx-auto block w-fit px-[0.25em]">{couple.bride.firstName}</span>
           </p>
-          <p className="mt-6 font-cinzel text-sm tracking-[0.3em] text-gold">{wedding.hashtag}</p>
         </Reveal>
 
         <Reveal delay={0.25} className="mt-12 flex flex-wrap items-center justify-center gap-3">

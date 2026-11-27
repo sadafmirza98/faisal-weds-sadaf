@@ -153,7 +153,9 @@ function OpeningOverlay({ onDone }: { onDone: () => void }) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="gate-title"
-      className="fixed inset-0 z-[100] overflow-x-hidden overflow-y-auto bg-midnight"
+      // The letter is sized to fit the screen, so the overlay never scrolls (the envelope
+      // sliding away below must not add empty space). Only very short landscape screens scroll.
+      className="fixed inset-0 z-[100] touch-none overflow-hidden overscroll-none bg-midnight [@media(max-height:560px)]:touch-auto [@media(max-height:560px)]:overflow-y-auto"
       initial={{ opacity: 1 }}
       animate={{ opacity: leaving ? 0 : 1 }}
       transition={{ duration: leaving === "skip" ? 0.5 : 1, delay: leaving === "enter" && !reduced ? 0.55 : 0 }}
@@ -275,7 +277,7 @@ function OpeningOverlay({ onDone }: { onDone: () => void }) {
             animate={{ opacity: 1, y: 0, transition: { delay: reduced ? 0 : 1.7, duration: 0.9 } }}
             exit={{ opacity: 0, transition: { duration: 0.3 } }}
           >
-            <button ref={enterRef} type="button" onClick={enterWorld} className="btn-spell shadow-[0_0_40px_rgba(232,201,139,0.45)]">
+            <button ref={enterRef} type="button" onClick={enterWorld} className="btn-spell whitespace-nowrap shadow-[0_0_40px_rgba(232,201,139,0.45)]">
               <Sparkles className="h-4 w-4" aria-hidden /> {wedding.invitation.enterLabel}
             </button>
           </motion.div>

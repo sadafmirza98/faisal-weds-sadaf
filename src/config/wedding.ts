@@ -111,7 +111,7 @@ export const wedding: WeddingConfig = {
 
   story: {
     eyebrow: "A tale written in starlight",
-    title: "Our Magical Story",
+    title: "Our Magical Celebration",
     intro: "Turn the pages of our celebrations — from Qubool Hai to forever.",
     chapters: [
       {
